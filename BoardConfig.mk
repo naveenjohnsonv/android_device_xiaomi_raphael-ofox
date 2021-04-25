@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2019 The TwrpBuilder Open-Source Project
+# Copyright (C) 2019-2021 OrangeFox Recovery Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -56,6 +56,10 @@ TARGET_KERNEL_SOURCE := kernel/xiaomi/raphael
 BOARD_KERNEL_IMAGE_NAME := Image.gz-dtb
 else
    TARGET_PREBUILT_KERNEL := $(DEVICE_PATH)/prebuilt/Image.gz-dtb
+   # whether to use stock kernel (from global_images_V12.0.5.0.QFKMIXM_20210224)
+   ifeq ($(FOX_USE_STOCK_KERNEL),1)
+     TARGET_PREBUILT_KERNEL := $(DEVICE_PATH)/prebuilt/Image-stock.gz-dtb
+   endif
 PRODUCT_COPY_FILES += \
     $(TARGET_PREBUILT_KERNEL):kernel
 endif
