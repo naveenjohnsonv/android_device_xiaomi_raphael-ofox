@@ -1,0 +1,7 @@
+on boot
+  # Delay start recovery, touch by init.fingerprintid.sh...
+  wait /sbin/fingerprint_ready
+
+# For starting recovery on 5.0 and newer
+service recovery /sbin/recovery
+    seclabel u:r:recovery:s0
