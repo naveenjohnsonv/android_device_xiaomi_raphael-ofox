@@ -2,6 +2,8 @@
 on fs
     wait /dev/block/platform/soc/${ro.boot.bootdevice}
     symlink /dev/block/platform/soc/${ro.boot.bootdevice} /dev/block/bootdevice
+    export ANDROID_ROOT /system_root
+    export LD_CONFIG_FILE /sbin/ld.config.txt
     chmod 0660 /dev/qseecom
     chown system drmrpc /dev/qseecom
     chmod 0664 /dev/ion
@@ -39,6 +41,7 @@ service keystore_auth /sbin/keystore_auth
     disabled
     seclabel u:r:recovery:s0
 
+# keystore is started and stopped on demand by TWRP
 service keystore /sbin/keystore /tmp/misc/keystore
     user root
     group root drmrpc readproc
@@ -60,6 +63,12 @@ service keymaster-4-0 /sbin/android.hardware.keymaster@4.0-service-qti
 ####
 on property:hwservicemanager.ready=true
     start sbinqseecomd
+
+service vibrator-service /sbin/vendor.qti.hardware.vibrator@1.2-service
+    user root
+    group root
+    disabled
+    seclabel u:r:recovery:s0
 
 on property:sys.listeners.registered=true
     start keymaster-4-0
